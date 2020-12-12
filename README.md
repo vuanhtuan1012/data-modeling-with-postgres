@@ -82,23 +82,23 @@ From my perspective, two records are duplicated if they have the same values in 
 
 ```Python
 # insert songplay records
-    songplay_data = list()
-    for index, row in df.iterrows():
-        # get songid and artistid from song and artist tables
-        cur.execute(song_select, (row.song, row.artist, row.length))
-        results = cur.fetchone()
+songplay_data = list()
+for index, row in df.iterrows():
+	# get songid and artistid from song and artist tables
+	cur.execute(song_select, (row.song, row.artist, row.length))
+	results = cur.fetchone()
 
-        if results:
-            songid, artistid = results
-        else:
-            songid, artistid = None, None
+	if results:
+		songid, artistid = results
+	else:
+		songid, artistid = None, None
 
-        songplay_data.append((
-            pd.to_datetime(row.ts, unit='ms'), row.userId,
-            row.level, songid, artistid, row.sessionId,
-            row.location, row.userAgent
-        ))
-    # remove duplicates
-    songplay_data = list(set(songplay_data))
-    cur.executemany(songplay_table_insert, songplay_data)
+	songplay_data.append((
+		pd.to_datetime(row.ts, unit='ms'), row.userId,
+		row.level, songid, artistid, row.sessionId,
+		row.location, row.userAgent
+	))
+# remove duplicates
+songplay_data = list(set(songplay_data))
+cur.executemany(songplay_table_insert, songplay_data)
 ```

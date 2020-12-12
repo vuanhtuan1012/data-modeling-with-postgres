@@ -4,13 +4,13 @@
 
 A startup called Sparkify wants to analyze the data they've been collecting on songs and user activity on their new music streaming app. The analytics team is particularly interested in **understanding what songs users are listening to**.
 
-Currently, they don't have an easy way to query their data, which resides in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app. They'd like to create a Postgres database with tables designed to optimize queries on song play analysis.
+Currently, they don't have an easy way to query their data, which resides in a directory of JSON logs on user activity on the app, as well as a directory with JSON metadata on the songs in their app. They'd like to **create a Postgres database with tables designed to optimize queries on song play analysis**.
 
 In this project, I will:
 - create a star schema :  define fact and dimension tables for anlytic focus.
 - write an ETL pipeline : transfer data from files in two local directories into tables in Postgres.
 - test the database and ETL pipeline.
-- do analyses on the database.
+- do analyses on the song plays.
 
 ## Project Structure
 
@@ -25,4 +25,4 @@ The project consists of seven files and two directories:
 6. `test.ipynb` displays the first few rows of each table to check the database.
 7. `dashboard.ipynb` generates statistics and analytic graphs on the database.
 8. `images` directory contains all images generated from `dashboard.ipynb`
-9. `README.md` this file is to give a summary of the project and an explaination of designing the schema and programming. It also provides analyses on database.
+9. `README.md` this file is to give a summary of the project and an explaination of designing the schema and programming. It also provides analyses on song plays.

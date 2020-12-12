@@ -65,8 +65,40 @@ Finally, we have a database schema optimized on queries on song play in the figu
 
 ## Inserting Data
 
-Since the data is loaded in from files, there may be a conflict at tables **users, songs, artists,** and **time** on its primary key if that user, song, artist, and time have been added earlier. We need, therefore, to set *do nothing* if having conflict when inserting data.
+Since the data is loaded in from files, there may be a conflict at tables **users, songs, artists,** and **time** on its primary key if that user, song, artist, and time have been added earlier. We need, therefore, to set *do nothing* if having conflict when inserting data. For example,
+
+```SQL
+user_table_insert = ("""
+INSERT INTO users(user_id, first_name, last_name, gender, level)
+VALUES(%s, %s, %s, %s, %s)
+ON CONFLICT(user_id)
+DO NOTHING;
+""")
+```
 
 The primary key of table **songplays** is an auto-increment field, so there's no conflict when inserting data. But I may have duplicate data. We need to remove duplicates when inserting data.
 
 From my perspective, two records are duplicated if they have the same values in all fields except *songplay_id*.
+
+```Python
+# insert songplay records
+    songplay_data = list()
+    for index, row in df.iterrows():
+        # get songid and artistid from song and artist tables
+        cur.execute(song_select, (row.song, row.artist, row.length))
+        results = cur.fetchone()
+
+        if results:
+            songid, artistid = results
+        else:
+            songid, artistid = None, None
+
+        songplay_data.append((
+            pd.to_datetime(row.ts, unit='ms'), row.userId,
+            row.level, songid, artistid, row.sessionId,
+            row.location, row.userAgent
+        ))
+    # remove duplicates
+    songplay_data = list(set(songplay_data))
+    cur.executemany(songplay_table_insert, songplay_data)
+```

@@ -108,6 +108,11 @@ cur.executemany(songplay_table_insert, songplay_data)
 The scripts will connect to PostgreSQL at the address `127.0.0.1` by using the username `student` and password `student`. The user `student` has to have permission to create a database. You also must have a database named `studentdb` on your system.
 
 Following these steps below to test the program:
+
+<p align="center">
+<img src="images/sparkify_process.svg" alt="Sparkify Process">
+</p>
+
 1. Create the database `sparkifydb`: run the script `create_tables.py`.
 Attention: This script will drop your database `sparkifydb` if it exists.
 2. Import data from the directory `data` into the database:

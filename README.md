@@ -114,7 +114,8 @@ Following these steps below to test the program:
 </p>
 
 1. Create the database `sparkifydb`: run the script `create_tables.py`.
-Attention: This script will drop your database `sparkifydb` if it exists.
+
+**Attention:** This script will drop your database `sparkifydb` if it exists.
 2. Import data from the directory `data` into the database:
 	- Run the script `etl.py` if you want to load data from all JSON files into tables.
 	- Run the notebook `etl.ipynb` if you want to load data from one JSON file in `song_data` and one JSON file in `log_data` into tables.

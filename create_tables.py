@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+# @Author: udacity
+# @Date:   2020-12-09 21:49:31
+# @Last Modified by:   anh-tuan.vu
+# @Last Modified time: 2020-12-12 00:58:55
+
 import psycopg2
 from sql_queries import create_table_queries, drop_table_queries
 

@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+# @Author: anh-tuan.vu
+# @Date:   2020-12-09 21:49:31
+# @Last Modified by:   anh-tuan.vu
+# @Last Modified time: 2020-12-12 01:44:26
+
 import os
 import glob
 import psycopg2
@@ -6,26 +12,40 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """Summary
+    - Reads data from a song file in JSON format
+    - Insert data to two table: songs and artists
+
+    Args:
+        cur (TYPE): cursor of database connection
+        filepath (TYPE): path to song file
+    """
     # open song file
     df = pd.read_json(filepath, lines=True)
 
     # insert song record
-    song_data = list(df[[
+    song_data = df[[
         'song_id', 'title', 'artist_id', 'year', 'duration'
-    ]].values[0])
-    # if song_data[0]: # verify song_id
+    ]].values[0].tolist()
     cur.execute(song_table_insert, song_data)
 
     # insert artist record
-    artist_data = list(df[[
+    artist_data = df[[
         'artist_id', 'artist_name', 'artist_location',
         'artist_latitude', 'artist_longitude'
-    ]].values[0])
-    # if artist_data[0]: # verify artist_id
+    ]].values[0].tolist()
     cur.execute(artist_table_insert, artist_data)
 
 
 def process_log_file(cur, filepath):
+    """Summary
+    - Read data from a log file in JSON format
+    - Insert data to three tables: time, users, songplays
+
+    Args:
+        cur (TYPE): cursor of database connection
+        filepath (TYPE): path to log file
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -45,22 +65,17 @@ def process_log_file(cur, filepath):
         'month', 'year', 'weekday'
     )
     time_df = pd.DataFrame(dict(zip(column_labels, time_data)))
-
-    for i, row in time_df.iterrows():
-        # if not row.timestamp: continue # verify start_time
-        cur.execute(time_table_insert, list(row))
-
-    # load user table
-    user_df = df[['userId', 'firstName', 'lastName', 'gender', 'level']]
+    time_lst = [tuple(i) for i in time_df.to_numpy()]
+    cur.executemany(time_table_insert, time_lst)
 
     # insert user records
-    for i, row in user_df.iterrows():
-        # if not row.userId: continue # verify user_id
-        cur.execute(user_table_insert, row)
+    user_df = df[['userId', 'firstName', 'lastName', 'gender', 'level']]
+    user_lst = [tuple(i) for i in user_df.to_numpy()]
+    cur.executemany(user_table_insert, user_lst)
 
     # insert songplay records
+    songplay_data = list()
     for index, row in df.iterrows():
-
         # get songid and artistid from song and artist tables
         cur.execute(song_select, (row.song, row.artist, row.length))
         results = cur.fetchone()
@@ -70,16 +85,25 @@ def process_log_file(cur, filepath):
         else:
             songid, artistid = None, None
 
-        # insert songplay record
-        songplay_data = (
+        songplay_data.append((
             pd.to_datetime(row.ts, unit='ms'), row.userId,
             row.level, songid, artistid, row.sessionId,
             row.location, row.userAgent
-        )
-        cur.execute(songplay_table_insert, songplay_data)
+        ))
+    cur.executemany(songplay_table_insert, songplay_data)
 
 
 def process_data(cur, conn, filepath, func):
+    """Summary
+    - Get absolute paths of all data files in JSON format
+    - Call function to deal with these files
+
+    Args:
+        cur (TYPE): cursor of database connection
+        conn (TYPE): connection to database
+        filepath (TYPE): path to look for data files
+        func (TYPE): function to deal with a data file
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):

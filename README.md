@@ -102,3 +102,17 @@ for index, row in df.iterrows():
 songplay_data = list(set(songplay_data))
 cur.executemany(songplay_table_insert, songplay_data)
 ```
+
+## How to run the Python scripts
+
+The scripts will connect to PostgreSQL at the address `127.0.0.1` by using the username `student` and password `student`. The user `student` has to have permission to create a database. You also must have a database named `studentdb` on your system.
+
+Following these steps below to test the program:
+1. Create the database `sparkifydb`: run the script `create_tables.py`.
+Attention: This script will drop your database `sparkifydb` if it exists.
+2. Import data from the directory `data` into the database:
+	- Run the script `etl.py` if you want to load data from all JSON files into tables.
+	- Run the notebook `etl.ipynb` if you want to load data from one JSON file in `song_data` and one JSON file in `log_data` into tables.
+3. After creating the database and importing data, you're free to run notebooks:
+	- The notebook `dashboard.ipynb` provides a general statistic on tables and gives some analytic graphs on song plays.
+	- The notebook `test.ipynb` displays 5 rows of each table.

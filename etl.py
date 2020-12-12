@@ -2,7 +2,7 @@
 # @Author: anh-tuan.vu
 # @Date:   2020-12-09 21:49:31
 # @Last Modified by:   anh-tuan.vu
-# @Last Modified time: 2020-12-12 15:55:29
+# @Last Modified time: 2020-12-12 20:18:55
 
 import os
 import glob
@@ -90,7 +90,8 @@ def process_log_file(cur, filepath):
             row.level, songid, artistid, row.sessionId,
             row.location, row.userAgent
         ))
-    songplay_data = list(set(songplay_data))  # remove duplicates
+    # remove duplicates
+    songplay_data = list(set(songplay_data))
     cur.executemany(songplay_table_insert, songplay_data)
 
 

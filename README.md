@@ -139,7 +139,7 @@ These analyses are realised after loading all files in `data` into the database.
 ```SQL
 SELECT level, count(songplay_id)
 FROM songplays
-GROUP BY level
+GROUP BY level;
 ```
 
 <p align="center">
@@ -147,15 +147,28 @@ GROUP BY level
 </p>
 
 #### Which user level is more?
+
+```SQL
+SELECT level, count(user_id)
+FROM users
+GROUP BY level;
+```
  
 <p align="center">
 <img src="images/users_per_level.png" alt="users per level">
 </p>
 
+
 #### Which browsers are used to access Sparkify app?
  
+```SQL
+SELECT user_agent, count(songplay_id)
+FROM songplays
+GROUP BY user_agent;
+```
+
 <p align="center">
-<img src="images/browsers.png" alt="browsers">
+<img src="images/browser.png" alt="browser">
 </p>
 
 #### Which OS are used to access Sparkify app?
@@ -170,13 +183,37 @@ GROUP BY level
 <img src="images/device.png" alt="device">
 </p>
 
-#### What is the rate of using Sparkify app over weeks??
+#### What is the rate of using Sparkify app over weeks?
+
+```SQL
+SELECT week, count(songplay_id)
+FROM songplays
+JOIN time ON songplays.start_time = time.start_time
+GROUP BY week
+ORDER BY week;
+```
  
 <p align="center">
 <img src="images/week.png" alt="week">
 </p>
 
 #### Top users, top regions using Sparkify app
+
+```SQL
+SELECT user_id, count(songplay_id) AS plays
+FROM songplays
+GROUP BY user_id
+ORDER BY plays DESC
+LIMIT 10;
+```
+
+```SQL
+SELECT REVERSE(TRIM(SPLIT_PART(REVERSE(location), ',', 1))) AS region, count(songplay_id) AS plays
+FROM songplays
+GROUP BY region
+ORDER BY plays DESC
+LIMIT 10;
+```
 
 <p align="center">
 <img src="images/top_users_regions.png" alt="top users regions">

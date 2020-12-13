@@ -121,3 +121,57 @@ Following these steps below to test the program:
 3. After creating the database and importing data, you're free to run notebooks:
 	- The notebook `dashboard.ipynb` provides a general statistic on tables and gives some analytic graphs on song plays.
 	- The notebook `test.ipynb` displays 5 rows of each table.
+
+## General Statistics
+
+These statistics are realized after loading all files in `data` into the database.
+- Total songplays = 6820
+- Total users = 96
+- Total artists = 69
+- Total songs = 71
+
+## Analyses
+
+These analyses are realised after loading all files in `data` into the database.
+
+#### Which user level is more active on Sparkify app?
+ 
+ <p align="center">
+<img src="images/plays_per_level.png" alt="plays per level">
+</p>
+
+#### Which user level is more?
+ 
+ <p align="center">
+<img src="images/users_per_level.png" alt="users per level">
+</p>
+
+#### Which browsers are used to access Sparkify app?
+ 
+ <p align="center">
+<img src="images/browsers.png" alt="browsers">
+</p>
+
+#### Which OS are used to access Sparkify app?
+ 
+ <p align="center">
+<img src="images/os.png" alt="os">
+</p>
+
+#### Which devices are used to access Sparkify app?
+ 
+ <p align="center">
+<img src="images/device.png" alt="device">
+</p>
+
+#### What is the rate of using Sparkify app over weeks??
+ 
+ <p align="center">
+<img src="images/week.png" alt="week">
+</p>
+
+#### Top users, top regions using Sparkify app
+
+<p align="center">
+<img src="images/top_users_regions.png" alt="top users regions">
+</p>

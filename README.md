@@ -146,7 +146,7 @@ GROUP BY level;
 <img src="images/plays_per_level.png" alt="plays per level">
 </p>
 
-#### Which user level is more?
+#### What is the rate of user levels?
 
 ```SQL
 SELECT level, count(user_id)

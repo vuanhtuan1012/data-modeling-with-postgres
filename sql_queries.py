@@ -2,7 +2,7 @@
 # @Author: anh-tuan.vu
 # @Date:   2020-12-09 21:49:31
 # @Last Modified by:   anh-tuan.vu
-# @Last Modified time: 2020-12-12 00:57:35
+# @Last Modified time: 2020-12-13 08:46:27
 
 # DROP TABLES
 
@@ -114,7 +114,7 @@ DO NOTHING;
 song_select = ("""
 SELECT song_id, songs.artist_id
 FROM songs JOIN artists ON songs.artist_id = artists.artist_id
-WHERE (title = %s) AND (name = %s) AND (duration = %s)
+WHERE (title=%s) AND (name=%s) AND (duration=%s)
 """)
 
 # QUERY LISTS

@@ -69,7 +69,7 @@ Foreign keys are required NOT NULL. Those are fields:
 - *artist_id* of the table **songs**
 - *start_time, user_id, song_id, artist_id* of the table **songplays**. However, to ease the tests, I let *song_id* and *artist_id* are IS NULL.
 
-In my opinion, the column *level* of the table **user** and table **songplays** are also NOT NULL.
+In my opinion, the column *level* of the table **users** and table **songplays** are also NOT NULL.
 
 ## Inserting Data
 

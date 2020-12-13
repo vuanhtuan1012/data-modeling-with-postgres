@@ -136,37 +136,43 @@ These analyses are realised after loading all files in `data` into the database.
 
 #### Which user level is more active on Sparkify app?
  
- <p align="center">
+```SQL
+SELECT level, count(songplay_id)
+FROM songplays
+GROUP BY level
+```
+
+<p align="center">
 <img src="images/plays_per_level.png" alt="plays per level">
 </p>
 
 #### Which user level is more?
  
- <p align="center">
+<p align="center">
 <img src="images/users_per_level.png" alt="users per level">
 </p>
 
 #### Which browsers are used to access Sparkify app?
  
- <p align="center">
+<p align="center">
 <img src="images/browsers.png" alt="browsers">
 </p>
 
 #### Which OS are used to access Sparkify app?
  
- <p align="center">
+<p align="center">
 <img src="images/os.png" alt="os">
 </p>
 
 #### Which devices are used to access Sparkify app?
  
- <p align="center">
+<p align="center">
 <img src="images/device.png" alt="device">
 </p>
 
 #### What is the rate of using Sparkify app over weeks??
  
- <p align="center">
+<p align="center">
 <img src="images/week.png" alt="week">
 </p>
 

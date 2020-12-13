@@ -63,16 +63,36 @@ Finally, we have a database schema optimized on queries on song play in the figu
 <img src="images/sparkify_schema.svg" alt="Sparkify Database Schema">
 </p>
 
+## Data Constraints
+
+Foreign keys are required NOT NULL. Those are fields:
+- *artist_id* of the table **songs**
+- *start_time, user_id, song_id, artist_id* of the table **songplays**. However, to ease the tests, I let *song_id* and *artist_id* are IS NULL.
+
+In my opinion, the column *level* of the table **user** and table **songplays** are also NOT NULL.
+
 ## Inserting Data
 
-Since the data is loaded in from files, there may be a conflict at tables **users, songs, artists,** and **time** on its primary key if that user, song, artist, and time have been added earlier. We need, therefore, to set *do nothing* if having conflict when inserting data. For example,
+Since the data is loaded in from files, there may be a conflict at tables **songs, artists,** and **time** on its primary key if that user, song, artist, and time have been added earlier. We need, therefore, to set *do nothing* if having conflict when inserting data. For example,
+
+```SQL
+song_table_insert = ("""
+INSERT INTO songs(song_id, title, artist_id, year, duration)
+VALUES(%s, %s, %s, %s, %s)
+ON CONFLICT(song_id)
+DO NOTHING;
+""")
+```
+
+Since users might change from `free` to `paid` and vice versa, we update the column  *level* for **users** table for the existing records.
 
 ```SQL
 user_table_insert = ("""
 INSERT INTO users(user_id, first_name, last_name, gender, level)
 VALUES(%s, %s, %s, %s, %s)
 ON CONFLICT(user_id)
-DO NOTHING;
+DO UPDATE
+    SET level = EXCLUDED.level;
 """)
 ```
 

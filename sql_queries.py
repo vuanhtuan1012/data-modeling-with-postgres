@@ -2,7 +2,7 @@
 # @Author: anh-tuan.vu
 # @Date:   2020-12-09 21:49:31
 # @Last Modified by:   anh-tuan.vu
-# @Last Modified time: 2020-12-13 08:46:27
+# @Last Modified time: 2020-12-13 20:09:21
 
 # DROP TABLES
 
@@ -17,9 +17,9 @@ time_table_drop = "DROP TABLE IF EXISTS times;"
 songplay_table_create = ("""
 CREATE TABLE songplays(
     songplay_id SERIAL PRIMARY KEY,
-    start_time TIMESTAMP,
-    user_id INT,
-    level VARCHAR,
+    start_time TIMESTAMP NOT NULL,
+    user_id INT NOT NULL,
+    level VARCHAR NOT NULL,
     song_id VARCHAR,
     artist_id VARCHAR,
     session_id INT,
@@ -34,7 +34,7 @@ CREATE TABLE users(
     first_name VARCHAR,
     last_name VARCHAR,
     gender CHAR,
-    level VARCHAR
+    level VARCHAR NOT NULL
 );
 """)
 
@@ -42,7 +42,7 @@ song_table_create = ("""
 CREATE TABLE songs(
     song_id VARCHAR PRIMARY KEY,
     title VARCHAR,
-    artist_id VARCHAR,
+    artist_id VARCHAR NOT NULL,
     year INT,
     duration DECIMAL
 );
@@ -84,7 +84,8 @@ user_table_insert = ("""
 INSERT INTO users(user_id, first_name, last_name, gender, level)
 VALUES(%s, %s, %s, %s, %s)
 ON CONFLICT(user_id)
-DO NOTHING;
+DO UPDATE
+    SET level = EXCLUDED.level;
 """)
 
 song_table_insert = ("""
